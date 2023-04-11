@@ -1,0 +1,31 @@
+resource "aws_cloudformation_stack" "lf-users" {
+name = "lf-users"
+capabilities=["CAPABILITY_IAM","CAPABILITY_NAMED_IAM"]
+#  parameters = {
+#    VPCCidr = "10.0.0.0/16"
+#  }
+
+template_body = <<STACK
+{
+  "Description": "CloudFormation template to create AWS Lake Formation workshop resources",
+  "Resources": {
+    "LFWorkshopBucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": {
+          "Fn::Join": [
+            "-",
+            [
+              "lf-workshop",
+              {
+                "Ref": "AWS::AccountId"
+              }
+            ]
+          ]
+        }
+      }
+    }
+  }
+}
+STACK
+}
