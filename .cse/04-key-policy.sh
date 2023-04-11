@@ -13,10 +13,12 @@ cat >key-policy.json <<EOF
             "Principal" : {
                 "AWS" : [
                     "arn:aws:iam::${ACCOUNT_ID}:root",
-                    "arn:aws:sts::${ACCOUNT_ID}:assumed-role/lf-admin/Participant"
+                    "arn:aws:sts::${ACCOUNT_ID}:assumed-role/lf-admin/Participant",
+                    "arn:aws:iam::${ACCOUNT_ID}:role/lf-admin",
+                    "arn:aws:sts::${ACCOUNT_ID}:assumed-role/lf-admin"
                     ]
             },
-            "Action" : "kms:",
+            "Action" : "kms:*",
             "Resource" : "*"
         },
         {
