@@ -1,5 +1,5 @@
 # get KeyID
-export KeyID=$(aws kms list-keys --query 'Keys[].KeyId' | jq -r '.[]' | head -1)
+export KeyID=$(cd ~/environment/xgov/tfinit && terraform output | grep keyid | cut -f2 -d'=' | tr -d ' "')
 #
 export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 export AWS_REGION=$(aws configure get region)
