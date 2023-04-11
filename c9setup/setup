@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Install OS tools"
 sudo yum -y -q -e 0 install jq  > /dev/null
-echo "Update OS tools"
+echo "Update OS tools - this may take a few minutes ....."
 sudo yum update -y > /dev/null
 echo "Update pip"
 sudo pip install --upgrade pip 2&> /dev/null
