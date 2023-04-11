@@ -8,25 +8,28 @@ resource "aws_kms_key_policy" "xgovkey" {
   key_id = aws_kms_key.xgovkey.id
   #policy = data.aws_iam_policy_document.xgovkey.json
   policy = jsonencode({
-  statement {
-    actions = [
-      "kms:*",
-    ]
-    resources = [
-      "*",
-    ]
-    principal = [ "*", ]
-    condition {
-      test     = "ArnLike"
-      variable = "aws:PrincipalArn"
-      values = [
-        format("arn:aws:sts::%s:assumed-role/lf-admin/AWSLF-00-AT-xxxxxxxxxxxx-*",data.aws_caller_identity.current.account_id),
-        format("arn:aws:iam::%s:role/aws-service-role/lakeformation.amazonaws.com/AWSServiceRoleForLakeFormationDataAccess",data.aws_caller_identity.current.account_id),
-        format("arn:aws:iam::%s:role/EMRContainers-JobExecutionRole-at",data.aws_caller_identity.current.account_id),
-        format("arn:aws:iam::%s:role/lf-admin",data.aws_caller_identity.current.account_id),
-        format("arn:aws:sts::%s:assumed-role/lf-admin/Participant",data.aws_caller_identity.current.account_id),
-      ]
-    }
+
+	"Id": "xgovkey",
+	"Statement": {
+		"Action": "kms:*",
+		"Effect": "Allow",
+		"Resource": "*",
+		"Principal": {
+			"AWS": "*"
+		},
+		"Condition": {
+			"test": "ArnLike",
+			"variable": "aws:PrincipalArn",
+			"values": [
+				format("arn:aws:sts::%s:assumed-role/lf-admin/AWSLF-00-AT-xxxxxxxxxxxx-*", data.aws_caller_identity.current.account_id),
+				format("arn:aws:iam::%s:role/aws-service-role/lakeformation.amazonaws.com/AWSServiceRoleForLakeFormationDataAccess", data.aws_caller_identity.current.account_id),
+				format("arn:aws:iam::%s:role/EMRContainers-JobExecutionRole-at", data.aws_caller_identity.current.account_id),
+				format("arn:aws:iam::%s:role/lf-admin", data.aws_caller_identity.current.account_id),
+				format("arn:aws:sts::%s:assumed-role/lf-admin/Participant", data.aws_caller_identity.current.account_id),
+			]
+		}
+	}
+
   })  
 }
 
