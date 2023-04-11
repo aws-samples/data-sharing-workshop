@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
 
     dbName = "xgov"
-    print("use glue db .. " + dbname)
+    print("use glue db .. " + dbName)
     spark.sql("USE " + dbName)
 
     print("Create glue table..")
