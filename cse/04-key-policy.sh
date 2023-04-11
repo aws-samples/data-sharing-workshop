@@ -11,9 +11,10 @@ cat > key-policy.json <<EOF
             "Sid" : "Enable IAM User Permissions",
             "Effect" : "Allow",
             "Principal" : {
-                "AWS" : ["arn:aws:iam::${ACCOUNT_ID}:root",
-                "arn:aws:iam::${ACCOUNT_ID}:role/lf-admin",
-                "arn:aws:sts::${ACCOUNT_ID}:assumed-role/lf-admin//i-0d9cf5e7738ccb452"]
+                "AWS" : [
+                    "arn:aws:iam::${ACCOUNT_ID}:root",
+                    "arn:aws:iam::${ACCOUNT_ID}:role/lf-admin"
+                    ]
             },
             "Action" : "kms:",
             "Resource" : "*"
