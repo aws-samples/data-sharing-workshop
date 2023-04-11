@@ -20,7 +20,7 @@ cat > key-policy.json <<EOF
             "Sid" : "Allow Use of Key",
             "Effect" : "Allow",
             "Principal" : {
-                "AWS" : "arn:aws:iam::${ACCOUNT_ID}:role/test-user"
+                "AWS" : "arn:aws:iam::${ACCOUNT_ID}:role/EMRContainers-JobExecutionRole-at"
             },
             "Action" : [
                 "kms:Encrypt",
