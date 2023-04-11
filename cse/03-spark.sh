@@ -25,7 +25,7 @@ if __name__ == "__main__":
     df.registerTempTable("customers_table")
 
 
-    df.write.parquet('${S3_BUCKET}/customers${TF_VAR_team_number}.parquet')
+    df.write.parquet('${S3_BUCKET}/raw-data/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.parquet')
     print("Encrypt - KMS- CSE write to s3 completed")
 
     dbName = "xgov"
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     spark.sql("USE " + dbName)
 
     print("Create glue table..")
-    spark.sql("CREATE table if not exists customers${TF_VAR_team_number} USING PARQUET LOCATION '" + "${S3_BUCKET}/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.parquet" + "' TBLPROPERTIES ('has_encrypted_data'='true') AS SELECT * from customers_table ")
+    spark.sql("CREATE table if not exists customers${TF_VAR_team_number} USING PARQUET LOCATION '" + "${S3_BUCKET}/raw-data/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.parquet" + "' TBLPROPERTIES ('has_encrypted_data'='true') AS SELECT * from customers_table ")
     print("Finished glue ....")
 
     spark.stop()
