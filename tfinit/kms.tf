@@ -39,7 +39,6 @@ data "aws_iam_policy_document" "xgovkey" {
     resources = [
       "*",
     ]
-    principal = [ "*", ]
     condition {
       test     = "ArnLike"
       variable = "aws:PrincipalArn"
