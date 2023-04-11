@@ -1,4 +1,4 @@
-Create a cluster timing ~ 13 minutes
+Create a cluster timing ~ 20 minutes
 
 Add EMR ~ 1 minute
 
