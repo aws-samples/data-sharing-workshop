@@ -14,7 +14,7 @@ resource "aws_s3_bucket" "xgov-data" {
 
 }
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state" {
+resource "aws_s3_bucket_server_side_encryption_configuration" "xgov-data" {
   bucket = aws_s3_bucket.xgov-data.id
 
 
@@ -27,17 +27,17 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state" 
 }
 
 
-resource "aws_s3_bucket_versioning" "terraform_state" {
+resource "aws_s3_bucket_versioning" "xgov-data" {
   # Enable versioning so we can see the full revision history of our
   # state files
   bucket = aws_s3_bucket.xgov-data.id
   versioning_configuration {
-    status = "Enabled"
+    status = "Disabled"
   }
 }
 
 
-resource "aws_s3_bucket_public_access_block" "pub_block_state" {
+resource "aws_s3_bucket_public_access_block" "xgov-data" {
   bucket = aws_s3_bucket.xgov-data.id
 
   restrict_public_buckets = true
