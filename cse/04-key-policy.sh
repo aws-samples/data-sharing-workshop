@@ -41,4 +41,4 @@ EOF
 aws kms put-key-policy \
     --policy-name default \
     --key-id $KeyID \
-    --policy file://key-policy.json
+    --policy file://key-policy.json --bypass-policy-lockout-safety-check

@@ -57,4 +57,4 @@ cat > cse-data.json <<EOF
 }
 EOF
 
-aws emr-containers start-job-run --cli-input-json file://cse-data.json --bypass-policy-lockout-safety-check
+aws emr-containers start-job-run --cli-input-json file://cse-data.json 
