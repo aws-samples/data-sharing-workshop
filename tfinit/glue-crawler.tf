@@ -1,6 +1,6 @@
 
 resource "aws_glue_crawler" "xgov" {
-  depends_on = [null_resource.sleep]
+  depends_on = [null_resource.sleep,aws_kms_key.xgovkey,aws_s3_object_copy.customers]
 
   database_name = "xgov"
   name          = "xgov"
