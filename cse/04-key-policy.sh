@@ -13,7 +13,7 @@ cat >key-policy.json <<EOF
             "Principal" : {
                 "AWS" : [
                     "arn:aws:iam::${ACCOUNT_ID}:root",
-                    "arn:aws:iam::${ACCOUNT_ID}:role/lf-admin"
+                    "arn:aws:sts::${ACCOUNT_ID}:assumed-role/lf-admin/Participant"
                     ]
             },
             "Action" : "kms:",
@@ -41,7 +41,8 @@ cat >key-policy.json <<EOF
                         "arn:aws:sts::${ACCOUNT_ID}:assumed-role/lf-admin/AWSLF-00-AT-xxxxxxxxxxxx-*",
                         "arn:aws:iam::${ACCOUNT_ID}:role/aws-service-role/lakeformation.amazonaws.com/AWSServiceRoleForLakeFormationDataAccess",
                         "arn:aws:iam::${ACCOUNT_ID}:role/EMRContainers-JobExecutionRole-at",
-                        "arn:aws:iam::${ACCOUNT_ID}:role/lf-admin"
+                        "arn:aws:iam::${ACCOUNT_ID}:role/lf-admin",
+                        "arn:aws:sts::${ACCOUNT_ID}:assumed-role/lf-admin/Participant"
                     ]
                 }
             }
