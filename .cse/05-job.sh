@@ -11,7 +11,7 @@ echo $EMR_ROLE_ARN
 echo $S3_BUCKET
 echo "KeyID=$KeyID"
 aws s3 cp cse-data.py ${S3_BUCKET}/scripts/cse-data.py
-aws s3 ${S3_BUCKET}/raw-data/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.parquet --recursive
+aws s3 rm ${S3_BUCKET}/raw-data/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.parquet --recursive
 cat > cse-data.json <<EOF
 
 {
