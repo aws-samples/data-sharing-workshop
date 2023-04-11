@@ -11,7 +11,7 @@ resource "aws_lakeformation_lf_tag" "tags-share" {
 
 resource "aws_lakeformation_lf_tag" "tags-sdept" {
   key    = "SourceDepartment"
-  values = ["DWP","HMRC","MOJ","NHS","HomeOffice","Administration"]
+  values = ["Department A","Department B","Department C","Agency 1","Agency 2","Agency 3"]
 }
 
 resource "aws_lakeformation_lf_tag" "tags-dtype" {
