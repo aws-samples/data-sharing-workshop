@@ -27,8 +27,9 @@ if __name__ == "__main__":
     df.write.parquet('${S3_BUCKET}/raw-data/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.parquet')
     print("Encrypt - KMS- CSE write to s3 completed")
 
+    spark.sql("SHOW DATABASES").show()
     dbName = "xgov"
-    print("use glue db .. +dbname")
+    print("use glue db .. " + dbname)
     spark.sql("USE " + dbName)
 
     print("Create glue table..")
