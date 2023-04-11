@@ -43,7 +43,8 @@ cat >key-policy.json <<EOF
                         "arn:aws:iam::${ACCOUNT_ID}:role/aws-service-role/lakeformation.amazonaws.com/AWSServiceRoleForLakeFormationDataAccess",
                         "arn:aws:iam::${ACCOUNT_ID}:role/EMRContainers-JobExecutionRole-at",
                         "arn:aws:iam::${ACCOUNT_ID}:role/lf-admin",
-                        "arn:aws:sts::${ACCOUNT_ID}:assumed-role/lf-admin/Participant"
+                        "arn:aws:sts::${ACCOUNT_ID}:assumed-role/lf-admin/Participant",
+                        "arn:aws:iam::${ACCOUNT_ID}:role/LF-GlueServiceRole"
                     ]
                 }
             }
