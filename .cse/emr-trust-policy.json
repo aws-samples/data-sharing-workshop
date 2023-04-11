@@ -4,7 +4,7 @@
       {
         "Effect": "Allow",
         "Principal": {
-          "Service": "elasticmapreduce.amazonaws.com"
+          "Service": ["elasticmapreduce.amazonaws.com","glue.amazonaws.com","lakeformation.amazonaws.com"]
         },
         "Action": "sts:AssumeRole"
       }
