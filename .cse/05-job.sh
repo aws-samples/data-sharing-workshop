@@ -12,7 +12,7 @@ echo $S3_BUCKET
 echo "KeyID=$KeyID"
 aws s3 cp cse-data.py ${S3_BUCKET}/scripts/cse-data.py
 # recopy source file
-aws s3 cp customers${TF_VAR_team_number}.csv s3://xgov-data-${AWS_REGION}-${ACCOUNT_ID}/raw-data/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.csv
+aws s3 cp ../data/customers${TF_VAR_team_number}.csv s3://xgov-data-${AWS_REGION}-${ACCOUNT_ID}/raw-data/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.csv
 aws s3 rm ${S3_BUCKET}/raw-data/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.parquet --recursive
 cat > cse-data.json <<EOF
 
