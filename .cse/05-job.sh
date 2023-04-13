@@ -1,3 +1,7 @@
+if [[ -z ${TF_VAR_team_number+x} ]]; then
+    echo "TF_VAR_team_number not set"
+    exit
+fi
 # get KeyID
 export KeyID=$(cd ~/environment/xgov/tfinit && terraform output | grep keyid | cut -f2 -d'=' | tr -d ' "')
 #

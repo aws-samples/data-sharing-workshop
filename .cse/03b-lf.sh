@@ -18,7 +18,15 @@ cat <<EOF >lf-settings.json
         "Parameters": {"CROSS_ACCOUNT_VERSION": "3"}
 }
 EOF
+
+
+
 aws lakeformation put-data-lake-settings --data-lake-settings file://lf-settings.json
+exit
+#
+# exit as rest shoudl have been done already
+#
+#
 #
 #
 ## Revoke IAMAllowedPrincipals - In admin roles and tasks
