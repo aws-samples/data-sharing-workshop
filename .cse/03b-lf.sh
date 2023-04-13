@@ -20,8 +20,35 @@ cat <<EOF >lf-settings.json
 EOF
 
 
-
+echo "Adding EMR Role to Lake Formation admins"
 aws lakeformation put-data-lake-settings --data-lake-settings file://lf-settings.json
+
+echo "Grant LF-GlueService-Role"
+cat <<EOF >input.json
+{
+    "CatalogId": "${accid}",
+    "Principal": {
+        "DataLakePrincipalIdentifier": "arn:aws:iam::${accid}:role/EMRContainers-JobExecutionRole-at"
+    },
+    "Resource": {
+        "Database": {
+            "CatalogId": "${accid}",
+            "Name": "xgov"
+        }
+     },
+    "Permissions": [
+        "ALL"
+    ],
+    "PermissionsWithGrantOption": []
+}
+EOF
+echo "Adding EMR Role with permissions ALL for database xgov"
+aws lakeformation grant-permissions --cli-input-json file://input.json
+
+
+
+
+
 exit
 #
 # exit as rest shoudl have been done already
