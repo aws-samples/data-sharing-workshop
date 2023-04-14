@@ -64,3 +64,11 @@ cat > cse-data.json <<EOF
 EOF
 date
 aws emr-containers start-job-run --cli-input-json file://cse-data.json 
+echo " waiting for the job ~ 6 minutes"
+js=$(aws emr-containers list-job-runs --virtual-cluster-id $VIRTUAL_CLUSTER_ID --query jobRuns[].state --output text)
+while [[ $js == "SUBMITTED" ]]; do
+    echo "waiting for cloudformation deletion"
+    sleep 10
+    js=$(aws emr-containers list-job-runs --virtual-cluster-id $VIRTUAL_CLUSTER_ID --query jobRuns[].state --output text)
+done
+echo $js

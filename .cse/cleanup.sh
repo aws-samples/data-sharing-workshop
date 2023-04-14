@@ -1,3 +1,7 @@
+vid=$(aws emr-containers list-virtual-clusters --states RUNNING --query virtualClusters[].id --output text)
+if [[ $vid != "" ]];then
+    aws emr-containers delete-virtual-cluster --id $vid
+fi
 aws eks delete-fargate-profile --cluster-name eks-emr --fargate-profile-name fp-default
 fgs=$(aws eks describe-fargate-profile --cluster-name eks-emr --fargate-profile-name fp-default --query fargateProfile.status --output text)
 while [[ $fgs == "DELETING" ]]; do
