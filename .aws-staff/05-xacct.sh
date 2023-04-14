@@ -17,7 +17,6 @@ done
 cd ~/environment/xgov/xacct
 terraform init
 terraform apply -auto-approve
-exit
-#
-#
+echo "check RAM shares"
+./check-05-ram-shares.sh
 #
