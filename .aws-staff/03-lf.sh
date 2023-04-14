@@ -63,10 +63,10 @@ aws lakeformation grant-permissions --cli-input-json file://input.json
 ## Fire xgov crawler 
 #
 echo "check the Lake Formation setup"
-./check-02-lf-setup.sh
+~/environment/xgov/.aws-staff/check-02-lf-setup.sh
 echo "start glue crawler"
 aws glue start-crawler --name xgov
 echo "sleeping ~ 2 minutes"
 sleep 130
 echo "check we have 3 glue tables"
-./check-03-glue.sh
+~/environment/xgov/.aws-staff/check-03-glue.sh

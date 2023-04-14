@@ -5,4 +5,5 @@ fi
 cd ~/environment/xgov/perms
 terraform init
 terraform apply -auto-approve
+~/environment/xgov/.aws-staff/check-04-lf-perms.sh
 

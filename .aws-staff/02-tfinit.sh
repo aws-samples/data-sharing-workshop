@@ -12,4 +12,4 @@ cd ~/environment/xgov/data
 aws s3 cp sales.csv s3://xgov-data-${AWS_REGION}-${ACCOUNT_ID}/raw-data/sales/sales.csv
 aws s3 cp products.csv s3://xgov-data-${AWS_REGION}-${ACCOUNT_ID}/raw-data/products/products.csv
 aws s3 cp customers${TF_VAR_team_number}.csv s3://xgov-data-${AWS_REGION}-${ACCOUNT_ID}/raw-data/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.csv
-./check-01-init.sh
+~/environment/xgov/.aws-staff/check-01-init.sh

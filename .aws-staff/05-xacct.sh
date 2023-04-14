@@ -18,5 +18,5 @@ cd ~/environment/xgov/xacct
 terraform init
 terraform apply -auto-approve
 echo "check RAM shares"
-./check-05-ram-shares.sh
+~/environment/xgov/.aws-staff/check-05-ram-shares.sh
 #
