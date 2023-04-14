@@ -7,7 +7,7 @@ export KeyID=$(cd ~/environment/xgov/tfinit && terraform output | grep keyid | c
 #
 export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 export AWS_REGION=$(aws configure get region)
-export VIRTUAL_CLUSTER_ID=$(aws emr-containers list-virtual-clusters --query "virtualClusters[?state=='RUNNING'].id" --output text)
+export VIRTUAL_CLUSTER_ID=$(aws emr-containers list-virtual-clusters --states RUNNING --query virtualClusters[].id --output text)
 export EMR_ROLE_ARN=$(aws iam get-role --role-name EMRContainers-JobExecutionRole-at --query Role.Arn --output text)
 export S3_BUCKET=s3://xgov-data-${AWS_REGION}-${ACCOUNT_ID}
 echo $VIRTUAL_CLUSTER_ID 
@@ -63,12 +63,13 @@ cat > cse-data.json <<EOF
 }
 EOF
 date
-aws emr-containers start-job-run --cli-input-json file://cse-data.json 
+job=aws emr-containers start-job-run --cli-input-json file://cse-data.json 
+jid=$(echo $job | jq -r .id)
 echo " waiting for the job ~ 6 minutes"
-js=$(aws emr-containers list-job-runs --virtual-cluster-id $VIRTUAL_CLUSTER_ID --query jobRuns[].state --output text)
-while [[ $js == "SUBMITTED" ]]; do
+js=$(aws emr-containers describe-job-run --virtual-cluster-id $VIRTUAL_CLUSTER_ID --id $jid --query jobRun.state --output text)
+while [[ $js != "COMPLETED" ]] && [[ $js != "FAILED" ]] ; do
     echo "waiting for cloudformation deletion"
     sleep 10
-    js=$(aws emr-containers list-job-runs --virtual-cluster-id $VIRTUAL_CLUSTER_ID --query jobRuns[].state --output text)
+    js=$(aws emr-containers describe-job-run --virtual-cluster-id $VIRTUAL_CLUSTER_ID --id $jid --query jobRun.state --output text)
 done
 echo $js

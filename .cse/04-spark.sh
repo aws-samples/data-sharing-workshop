@@ -30,7 +30,7 @@ if __name__ == "__main__":
     dbName = "xgov"
     print("use glue db .. " + dbName)
     spark.sql("USE " + dbName)
-    print("delete table if exists customers${TF_VAR_team_number}")
+    print("drop table if exists customers${TF_VAR_team_number}")
     spark.sql("DROP TABLE IF EXISTS customers${TF_VAR_team_number}")
     print("Create glue table..")
     spark.sql("CREATE table if not exists customers${TF_VAR_team_number} USING PARQUET LOCATION '" + "${S3_BUCKET}/raw-data/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.parquet" + "' TBLPROPERTIES ('has_encrypted_data'='true') AS SELECT * from customers_table ")
