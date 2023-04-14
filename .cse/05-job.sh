@@ -75,7 +75,7 @@ if [[ $jid != "" ]]; then
     sleep 10
     js=$(aws emr-containers describe-job-run --virtual-cluster-id $VIRTUAL_CLUSTER_ID --id $jid --query jobRun.state --output text)
   done
-  echo "End status of job = $js"
+  echo "Final status of job = $js"
 fi
 if [[ $js == "COMPLETED" ]];then
   aws s3 rm ${S3_BUCKET}/raw-data/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.csv
