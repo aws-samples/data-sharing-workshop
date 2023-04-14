@@ -68,14 +68,14 @@ echo $job | jq .
 jid=$(echo $job | jq -r .id)
 if [[ $jid != "" ]]; then
   date
-  echo "waiting for the job ~6 minutes"
+  echo "waiting for the spark job $jid on virtual EMR cluster $VIRTUAL_CLUSTER_ID     ~6 minutes"
   js=$(aws emr-containers describe-job-run --virtual-cluster-id $VIRTUAL_CLUSTER_ID --id $jid --query jobRun.state --output text)
   while [[ $js != "COMPLETED" ]] && [[ $js != "FAILED" ]]; do
-    echo "waiting for spark job $jid on virtual EMR cluster $VIRTUAL_CLUSTER_ID current state = $js"
+    echo "Current state of job = $js"
     sleep 10
     js=$(aws emr-containers describe-job-run --virtual-cluster-id $VIRTUAL_CLUSTER_ID --id $jid --query jobRun.state --output text)
   done
-  echo "Final status of job = $js"
+  echo "Final state of job = $js"
 fi
 if [[ $js == "COMPLETED" ]];then
   aws s3 rm ${S3_BUCKET}/raw-data/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.csv
