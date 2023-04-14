@@ -12,4 +12,11 @@ while [[ $cls == "DELETING" ]]; do
     sleep 10
     cls=$(aws eks describe-cluster --name eks-emr --query cluster.status --output text 2> /dev/null)
 done
-
+aws cloudformation delete-stack --stack-name eksctl-eks-emr-cluster
+ss=$(aws cloudformation describe-stacks --stack-name eksctl-eks-emr-cluster --query Stacks[].StackStatus --output text)
+echo $ss
+while [[ $ss == "DELETE_IN_PROGRESS" ]]; do
+    echo "waiting for cloudformation deletion"
+    sleep 10
+    ss=$( aws cloudformation describe-stacks --stack-name eksctl-eks-emr-cluster --query Stacks[].StackStatus --output text 2> /dev/null)
+done
