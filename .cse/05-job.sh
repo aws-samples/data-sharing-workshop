@@ -67,12 +67,12 @@ job=$(aws emr-containers start-job-run --cli-input-json file://cse-data.json)
 echo $job | jq .
 jid=$(echo $job | jq -r .id)
 if [[ $jid != "" ]]; then
-  echo " waiting for the job ~ 6 minutes"
+  echo "waiting for the job ~ 6 minutes"
   js=$(aws emr-containers describe-job-run --virtual-cluster-id $VIRTUAL_CLUSTER_ID --id $jid --query jobRun.state --output text)
   while [[ $js != "COMPLETED" ]] && [[ $js != "FAILED" ]]; do
-    echo "waiting for cloudformation deletion"
+    echo "waiting for spark job $jid on virtual EMR cluster $VIRTUAL_CLUSTER_ID current state $js"
     sleep 10
     js=$(aws emr-containers describe-job-run --virtual-cluster-id $VIRTUAL_CLUSTER_ID --id $jid --query jobRun.state --output text)
   done
-  echo $js
+  echo "End status of job = $js"
 fi
