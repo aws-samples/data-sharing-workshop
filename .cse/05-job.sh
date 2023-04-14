@@ -67,7 +67,8 @@ job=$(aws emr-containers start-job-run --cli-input-json file://cse-data.json)
 echo $job | jq .
 jid=$(echo $job | jq -r .id)
 if [[ $jid != "" ]]; then
-  echo "waiting for the job ~ 6 minutes"
+  date
+  echo "waiting for the job ~6 minutes"
   js=$(aws emr-containers describe-job-run --virtual-cluster-id $VIRTUAL_CLUSTER_ID --id $jid --query jobRun.state --output text)
   while [[ $js != "COMPLETED" ]] && [[ $js != "FAILED" ]]; do
     echo "waiting for spark job $jid on virtual EMR cluster $VIRTUAL_CLUSTER_ID current state = $js"
@@ -75,4 +76,7 @@ if [[ $jid != "" ]]; then
     js=$(aws emr-containers describe-job-run --virtual-cluster-id $VIRTUAL_CLUSTER_ID --id $jid --query jobRun.state --output text)
   done
   echo "End status of job = $js"
+fi
+if [[ $js == "COMPLETED" ]];then
+  aws s3 rm ${S3_BUCKET}/raw-data/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.csv
 fi
