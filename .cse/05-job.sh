@@ -1,6 +1,6 @@
 if [[ -z ${TF_VAR_team_number+x} ]]; then
-    echo "TF_VAR_team_number not set"
-    exit
+  echo "TF_VAR_team_number not set"
+  exit
 fi
 # get KeyID
 export KeyID=$(cd ~/environment/xgov/tfinit && terraform output | grep keyid | cut -f2 -d'=' | tr -d ' "')
@@ -10,15 +10,15 @@ export AWS_REGION=$(aws configure get region)
 export VIRTUAL_CLUSTER_ID=$(aws emr-containers list-virtual-clusters --states RUNNING --query virtualClusters[].id --output text)
 export EMR_ROLE_ARN=$(aws iam get-role --role-name EMRContainers-JobExecutionRole-at --query Role.Arn --output text)
 export S3_BUCKET=s3://xgov-data-${AWS_REGION}-${ACCOUNT_ID}
-echo $VIRTUAL_CLUSTER_ID 
-echo $EMR_ROLE_ARN 
+echo $VIRTUAL_CLUSTER_ID
+echo $EMR_ROLE_ARN
 echo $S3_BUCKET
 echo "KeyID=$KeyID"
 aws s3 cp cse-data.py ${S3_BUCKET}/scripts/cse-data.py
 # recopy source file
 aws s3 cp ../data/customers${TF_VAR_team_number}.csv s3://xgov-data-${AWS_REGION}-${ACCOUNT_ID}/raw-data/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.csv
 aws s3 rm ${S3_BUCKET}/raw-data/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.parquet --recursive
-cat > cse-data.json <<EOF
+cat >cse-data.json <<EOF
 
 {
   "name": "spark-python-in-s3-encrypt-cse-kms-write", 
@@ -63,13 +63,16 @@ cat > cse-data.json <<EOF
 }
 EOF
 date
-job=aws emr-containers start-job-run --cli-input-json file://cse-data.json 
+job=$(aws emr-containers start-job-run --cli-input-json file://cse-data.json)
+echo $job | jq .
 jid=$(echo $job | jq -r .id)
-echo " waiting for the job ~ 6 minutes"
-js=$(aws emr-containers describe-job-run --virtual-cluster-id $VIRTUAL_CLUSTER_ID --id $jid --query jobRun.state --output text)
-while [[ $js != "COMPLETED" ]] && [[ $js != "FAILED" ]] ; do
+if [[ $jid != "" ]]; then
+  echo " waiting for the job ~ 6 minutes"
+  js=$(aws emr-containers describe-job-run --virtual-cluster-id $VIRTUAL_CLUSTER_ID --id $jid --query jobRun.state --output text)
+  while [[ $js != "COMPLETED" ]] && [[ $js != "FAILED" ]]; do
     echo "waiting for cloudformation deletion"
     sleep 10
     js=$(aws emr-containers describe-job-run --virtual-cluster-id $VIRTUAL_CLUSTER_ID --id $jid --query jobRun.state --output text)
-done
-echo $js
+  done
+  echo $js
+fi
