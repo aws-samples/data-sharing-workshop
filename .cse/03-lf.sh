@@ -55,7 +55,7 @@ cat <<EOF >input.json
     "Resource": {
         "TABLE": {
             "CatalogId": "${accid}",
-            "DatabaseName" "xgov"
+            "DatabaseName" "xgov",
             "Name": "customers${TF_VAR_team_number}"
         }
      },
