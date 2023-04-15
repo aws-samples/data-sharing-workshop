@@ -53,7 +53,7 @@ cat <<EOF >input.json
         "DataLakePrincipalIdentifier": "arn:aws:iam::${accid}:role/EMRContainers-JobExecutionRole-at"
     },
     "Resource": {
-        "TABLE": {
+        "Table": {
             "CatalogId": "${accid}",
             "DatabaseName": "xgov",
             "Name": "customers${TF_VAR_team_number}"
