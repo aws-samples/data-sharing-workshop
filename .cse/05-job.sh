@@ -79,4 +79,8 @@ if [[ $jid != "" ]]; then
 fi
 if [[ $js == "COMPLETED" ]];then
   aws s3 rm ${S3_BUCKET}/raw-data/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.csv
+  echo "Pick up workshop from here:"
+  echo "https://catalog.us-east-1.prod.workshops.aws/workshops/5ffa7541-d02c-486b-baaf-3c3678873c5a/en-US/070-perms-query"
+else
+  echo "ERROR: problem with spark job - check clpoudwatch logs"
 fi

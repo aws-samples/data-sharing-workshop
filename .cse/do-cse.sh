@@ -23,5 +23,3 @@ echo "Create Spark python code - to client side encrypt customers data"
 echo "Run Spark job ~ 6 minutes"
 ./05-job.sh
 date
-echo "Pick up workshop from here:"
-echo "https://catalog.us-east-1.prod.workshops.aws/workshops/5ffa7541-d02c-486b-baaf-3c3678873c5a/en-US/070-perms-query"
