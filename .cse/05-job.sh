@@ -72,7 +72,7 @@ if [[ $jid != "" ]]; then
   js=$(aws emr-containers describe-job-run --virtual-cluster-id $VIRTUAL_CLUSTER_ID --id $jid --query jobRun.state --output text)
   while [[ $js != "COMPLETED" ]] && [[ $js != "FAILED" ]]; do
     echo "Current state of job = $js"
-    sleep 10
+    sleep 20
     js=$(aws emr-containers describe-job-run --virtual-cluster-id $VIRTUAL_CLUSTER_ID --id $jid --query jobRun.state --output text)
   done
   echo "Final state of job = $js"
