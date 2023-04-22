@@ -1,4 +1,4 @@
-./00*
+source ./setup.sh
 source ~/.bash_profile
 ./01*
 ./02*
