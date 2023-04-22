@@ -1,5 +1,9 @@
+if [[ -z ${TF_VAR_remote_acct_1+x} ]];then
+echo "TF_VAR_remote_acct_1 not set"
+exit 
+fi
 if [[ -z ${TF_VAR_remote_acct_2+x} ]];then
-echo "TF_VAR_remote_acct_2 not set"
+echo "TF_VAR_remote_acct_1 not set"
 exit 
 fi
 #
