@@ -81,6 +81,11 @@ if [[ $js == "COMPLETED" ]];then
   aws s3 rm ${S3_BUCKET}/raw-data/customers${TF_VAR_team_number}/customers${TF_VAR_team_number}.csv
   echo "Pick up workshop from here:"
   echo "https://catalog.us-east-1.prod.workshops.aws/workshops/5ffa7541-d02c-486b-baaf-3c3678873c5a/en-US/070-perms-query"
+  ### fix flue sales table
+  echo "fix glue sales table"
+  aws glue get-table --database-name xgov --name sales | jq '.Table.StorageDescriptor.Columns[1].Type = "string"' | jq .Table > temp.json
+  cat temp.json | jq '{Name, StorageDescriptor}' > temp2.json
+  aws glue update-table --database-name xgov --table-input file://temp2.json
 else
   echo "ERROR: problem with spark job - check clpoudwatch logs"
 fi
