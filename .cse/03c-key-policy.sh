@@ -39,7 +39,7 @@ cat >key-policy.json <<EOF
             "Condition": {
                 "ArnLike": {
                     "aws:PrincipalArn": [
-                        "arn:aws:sts::${ACCOUNT_ID}:assumed-role/lf-admin/AWSLF-00-AT-xxxxxxxxxxxx-*",
+                        "arn:aws:sts::${ACCOUNT_ID}:assumed-role/lf-admin/AWSLF-00-AT-${ACCOUNT_ID}-*",
                         "arn:aws:iam::${ACCOUNT_ID}:role/aws-service-role/lakeformation.amazonaws.com/AWSServiceRoleForLakeFormationDataAccess",
                         "arn:aws:iam::${ACCOUNT_ID}:role/EMRContainers-JobExecutionRole-at",
                         "arn:aws:iam::${ACCOUNT_ID}:role/lf-admin",
