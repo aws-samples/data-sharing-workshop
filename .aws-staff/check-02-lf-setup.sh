@@ -30,7 +30,7 @@ else
     echo "PASSED: found LF-GlueServiceRole role in LF permissions"
 fi
 ip=$(aws lakeformation list-permissions --output text | grep IAMAllowedPrincipals | wc -l)
-if [[ $lg -eq 0 ]]; then
+if [[ $ip -eq 0 ]]; then
     echo "PASSED: IAMAllowedPrincipals not in LF permissions"
 
 else
