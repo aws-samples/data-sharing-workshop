@@ -1,17 +1,17 @@
 # Data lake settings
-aws lakeformation get-data-lake-settings --query DataLakeSettings.DataLakeAdmins --output text | cut -f2- -d'/' | grep lf-admin
+aws lakeformation get-data-lake-settings --query DataLakeSettings.DataLakeAdmins --output text | cut -f2- -d'/' | grep lf-admin > /dev/null
 if [[ $? -eq 0 ]]; then
     echo "PASSED: Found lf-admin role as LF admin"
 else
     echo "ERROR: did not find lf-admin role as LF admin"
 fi
-aws lakeformation get-data-lake-settings --query DataLakeSettings.DataLakeAdmins --output text | cut -f2- -d'/' | grep WSParticipantRole
+aws lakeformation get-data-lake-settings --query DataLakeSettings.DataLakeAdmins --output text | cut -f2- -d'/' | grep WSParticipantRole > /dev/null
 if [[ $? -eq 0 ]]; then
     echo "PASSED: Found WSParticipantRole role as LF admin"
 else
     echo "ERROR: did not find WSParticipantRole role as LF admin"
 fi
-lv=$(aws lakeformation get-data-lake-settings --query DataLakeSettings.Parameters --output text)
+lv=$(aws lakeformation get-data-lake-settings --query DataLakeSettings.Parameters --output text > /dev/null) 
 if [[ $lv -eq 3 ]]; then
     echo "PASSED: LF verison is 3 found version = $lv"
 else
@@ -27,7 +27,7 @@ lg=$(aws lakeformation list-permissions --output text | grep LF-GlueServiceRole 
 if [[ $lg -lt 1 ]]; then
     echo "ERROR: did not find LF-GlueServiceRole role in LF permissions"
 else
-    echo "PASSED: found LF-GlueServiceRole role in LF permissions"
+    echo "PASSED: Found LF-GlueServiceRole role in LF permissions"
 fi
 ip=$(aws lakeformation list-permissions --output text | grep IAMAllowedPrincipals | wc -l)
 if [[ $ip -eq 0 ]]; then
