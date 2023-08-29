@@ -11,13 +11,13 @@ if [[ $? -eq 0 ]]; then
 else
     echo "ERROR: did not find WSParticipantRole role as LF admin"
 fi
-lv=$(aws lakeformation get-data-lake-settings --query DataLakeSettings.Parameters --output text > /dev/null) 
+lv=$(aws lakeformation get-data-lake-settings --query DataLakeSettings.Parameters --output text) 
 if [[ $lv -eq 3 ]]; then
     echo "PASSED: LF verison is 3 found version = $lv"
 else
     echo "ERROR: LF verison is not 3 found version = $lv"
 fi
-aws glue get-databases --query DatabaseList[].LocationUri --output text | grep 's3://xgov-data'
+aws glue get-databases --query DatabaseList[].LocationUri --output text | grep 's3://xgov-data' > /dev/null
 if [[ $? -eq 0 ]]; then
     echo "PASSED: Found s3://xgov-data* as LF location"
 else
