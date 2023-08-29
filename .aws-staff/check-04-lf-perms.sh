@@ -24,10 +24,10 @@ else
     echo "PASSED: Found expected 11 tag keys"
 fi
 pv=$(aws lakeformation list-permissions --output text | grep public | wc -l)
-if [[ $pv -ne 11 ]];then
-    echo "ERROR: expected 6 public values got $pv"
-else
+if [[ $pv -eq 6 ]];then
     echo "PASSED: Found expected 6 public values"
+else
+    echo "ERROR: expected 6 public values got $pv"
 fi
 aws lakeformation search-tables-by-lf-tags --expression TagKey=share,TagValues=teams --query TableList[].Table[].Name --output text | grep customers > /dev/null
 if [[ $ip -eq 0 ]]; then
