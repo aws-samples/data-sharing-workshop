@@ -1,11 +1,9 @@
-## My Project
+## Data Sharing Workshop
 
-TODO: Fill this README out!
+Code associated with public AWS workshop:
 
-Be sure to:
+https://catalog.us-east-1.prod.workshops.aws/workshops/5ffa7541-d02c-486b-baaf-3c3678873c5a/en-US
 
-* Change the title in this README
-* Edit your repository description on GitHub
 
 ## Security
 
