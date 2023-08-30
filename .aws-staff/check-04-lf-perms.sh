@@ -1,4 +1,3 @@
-echo "check you see 25 lf-admin permissions"
 ac=$(aws lakeformation list-permissions --output text | grep lf-admin | wc -l)
 if [[ $ac -lt 25 ]];then
     echo "ERROR: expected 25+ lf-admin permissions only got $sc"
