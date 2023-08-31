@@ -1,3 +1,4 @@
+ac=$(aws sts get-caller-identity | jq -r .Account)
 cracs=$(aws lakeformation list-permissions | grep 'iam:'| grep -v $ac | sort -u | cut -f6 -d: | wc -l)
 if [[ $cracs -ne 2 ]];then
     echo "WARNING: found $cracs remote accounts in permissions - expected only 2 at this point in the workshop"
