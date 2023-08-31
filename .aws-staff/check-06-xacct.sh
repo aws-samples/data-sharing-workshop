@@ -117,7 +117,7 @@ cat << EOF > input.json
     "CatalogId": "$ac",
     "Resource": {
         "LFTagPolicy": {
-                    "CatalogId": "375524172103",
+                    "CatalogId": "$ac",
                     "ResourceType": "TABLE",
                     "Expression": [
                         {
@@ -139,10 +139,18 @@ cat << EOF > input.json
 }
 EOF
 perms=$(aws lakeformation list-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$p)
+echo $perms | grep SELECT > /dev/null
+if [[ $? -eq 0 ]];then
+echo "PASSED: Principal $p has SELECT with tags sensitivity: public,private and share: teams TABLE in xgov"
+else
+echo "ERROR: Principal $p does not have SELECT with tags sensitivity: public,private and share: teams TABLE in xgov"
+fi
 echo $perms | grep DESCRIBE > /dev/null
 if [[ $? -eq 0 ]];then
-echo "PASSED: Principal $p has tag sensitivity: public,private and share: teams TABLE in xgov"
+echo "PASSED: Principal $p has DESCRIBE with tags sensitivity: public,private and share: teams TABLE in xgov"
 else
-echo "ERROR: Principal $p does not have tag sensitivity: public,private and share: teams TABLE in xgov"
+echo "ERROR: Principal $p does not have DESCRIBE with tags sensitivity: public,private and share: teams TABLE in xgov"
 fi
+
+
 done
