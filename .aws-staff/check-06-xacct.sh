@@ -1,4 +1,8 @@
-echo 'check there are "4" shares'
+cracs=$(aws lakeformation list-permissions | grep 'iam:'| grep -v $ac | sort -u | cut -f6 -d: | wc -l)
+if [[ $cracs -ne 2 ]];then
+    echo "WARNING: found $cracs remote accounts in permissions - expected only 2 at this point in the workshop"
+fi
+
 rs=$(aws ram get-resource-shares --resource-owner SELF --query resourceShares[].name | jq -r .[] | grep LakeF | wc -l)
 if [[ $rs -ne 4 ]];then
     echo "ERROR: Expected to see 4 RAM shares - got $rs"
@@ -14,10 +18,7 @@ else
 fi
 
 racs=$(aws lakeformation list-permissions | grep 'iam:'| grep -v $ac | sort -u | cut -f6 -d:)
-cracs=$(aws lakeformation list-permissions | grep 'iam:'| grep -v $ac | sort -u | cut -f6 -d: | wc -l)
-if [[ $cracs -ne 2 ]];then
-    echo "WARNING: found $cracs remote accounts in permissions - expected only 2 at this point in the workshop"
-fi
+
 for ra in $racs; do
 cat << EOF > input.json
 {
