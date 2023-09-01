@@ -59,6 +59,7 @@ else
     echo "PASSED: Found min 4 principals expected"
 fi
 
+echo "Check Tag Permissions"
 racs=$(aws lakeformation list-permissions | grep 'iam:' | grep -e $TF_VAR_remote_acct_1 -e $TF_VAR_remote_acct_2 | sort -u | cut -f6 -d:)
 
 for ra in $racs; do
@@ -116,6 +117,7 @@ EOF
 
 done
 
+echo "Check Database permissions"
 prins=$(aws lakeformation list-permissions | grep 'iam:' | grep -e $TF_VAR_remote_acct_1 -e $TF_VAR_remote_acct_2 | sort -u | cut -f2- -d':' | jq -r .)
 # check db perms
 for p in $prins; do
@@ -149,7 +151,7 @@ EOF
 done
 
 # check table perms
-
+echo "Check Table permissions"
 for p in $prins; do
 
     cat <<EOF >input.json
