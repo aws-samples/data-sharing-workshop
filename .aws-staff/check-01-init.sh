@@ -1,7 +1,20 @@
 source ~/.bash_profile
-echo 'Should return "3"'
-aws s3 ls s3://xgov-data-${AWS_REGION}-${ACCOUNT_ID}/raw-data/ | wc -l
-echo "check TF_VAR_team_number is correct"
-echo $TF_VAR_team_number
-echo "check TF_VAR_region is eu-west-1"
-echo $TF_VAR_region
+sc=$(aws s3 ls s3://xgov-data-${AWS_REGION}-${ACCOUNT_ID}/raw-data/ | wc -l)
+if [[ $sc -eq 3 ]];then
+echo "PASSED: found 3 data files in S3"
+else
+echo "ERROR: did not find 3 data files in S3"
+fi
+if [[ -z ${TF_VAR_team_number+x} ]]; then
+    echo "ERROR: TF_VAR_team_number is not set"
+else
+    echo "PASSED: TF_VAR_team_number is set $TF_VAR_team_number"
+fi
+if [[ -z ${TF_VAR_region+x} ]]; then
+    echo "ERROR: TF_VAR_region is not set"
+else
+    echo "PASSED: TF_VAR_region is set $TF_VAR_region"
+fi
+echo " "
+echo "run ./00-setup-env.sh if you are going to use the check scripts"
+echo " "
