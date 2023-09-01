@@ -26,10 +26,10 @@ else
 fi
 
 xc=$(aws lakeformation list-permissions | grep 'iam:' | grep -v $ac | wc -l)
-if [[ $rs -lt 5 ]];then
-    echo "ERROR: Expected to see 5 principlas in LF permissions - got $xc"
+if [[ $rs -lt 6 ]];then
+    echo "ERROR: Expected to see 6 principlas in LF permissions - got $xc"
 else
-    echo "PASSED: Found min 5 principals expected"
+    echo "PASSED: Found min 6 principals expected"
 fi
 
 racs=$(aws lakeformation list-permissions | grep 'iam:'| grep $TF_VAR_central_acct | sort -u | cut -f6 -d:)
@@ -95,7 +95,6 @@ done
 prins=$(aws lakeformation list-permissions | grep 'iam:' | grep $TF_VAR_central_acct | sort -u | cut -f2- -d':' | jq -r .)
 
 for p in $prins; do
-echo "checking $p TABLE permissions"
 cat << EOF > input.json
 {
     "CatalogId": "$ac",
@@ -122,18 +121,17 @@ cat << EOF > input.json
 }
 EOF
 perms=$(aws lakeformation list-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$p)
-echo $perms
 echo $perms | grep SELECT > /dev/null
 if [[ $? -eq 0 ]];then
-echo "PASSED: Principal $p has SELECT with tags sensitivity: public,private and share: central on TABLE in xgov"
+echo "PASSED: Principal $p has SELECT with tags sensitivity: public and share: central on TABLE in xgov"
 else
-echo "ERROR: Principal $p does not have SELECT with tags sensitivity: public,private and share: central on TABLE in xgov"
+echo "ERROR: Principal $p does not have SELECT with tags sensitivity: public and share: central on TABLE in xgov"
 fi
 echo $perms | grep DESCRIBE > /dev/null
 if [[ $? -eq 0 ]];then
-echo "PASSED: Principal $p has DESCRIBE with tags sensitivity: public,private and share: central TABLE in xgov"
+echo "PASSED: Principal $p has DESCRIBE with tags sensitivity: public and share: central TABLE in xgov"
 else
-echo "ERROR: Principal $p does not have DESCRIBE with tags sensitivity: public,private and share: central TABLE in xgov"
+echo "ERROR: Principal $p does not have DESCRIBE with tags sensitivity: public and share: central TABLE in xgov"
 fi
 
 
