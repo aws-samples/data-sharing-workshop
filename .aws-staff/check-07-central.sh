@@ -107,7 +107,6 @@ cat << EOF > input.json
                         {
                             "TagKey": "sensitivity",
                             "TagValues": [
-                                "private",
                                 "public"
                             ]
                         },
