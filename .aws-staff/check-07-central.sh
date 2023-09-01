@@ -18,7 +18,7 @@ if [[ $cracs -ne 1 ]];then
     echo "WARNING: found $cracs remote accounts in permissions - expected 1 at this point in the workshop"
 fi
 
-rs=$(aws ram get-resource-shares --resource-owner SELF --query resourceShares[].name | jq -r .[] | grep LakeF | wc -l)
+rs=$(aws ram get-resource-shares --resource-share-status ACTIVE --resource-owner SELF --query resourceShares[].name | jq -r .[] | grep LakeF | wc -l)
 if [[ $rs -ne 6 ]];then
     echo "ERROR: Expected to see 6 RAM shares - got $rs"
 else

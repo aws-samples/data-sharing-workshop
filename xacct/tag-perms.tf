@@ -39,3 +39,7 @@ resource "aws_lakeformation_permissions" "ra2-share" {
   }
   
 }
+
+
+
+
