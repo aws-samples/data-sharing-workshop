@@ -50,7 +50,8 @@ elif [[ $rs -eq 4 ]]; then
     echo "PASSED: Found 4 RAM shares as expected"
 else
     echo "WARNING: Expected to see 4 RAM shares - got $rs"
-ac=$(aws sts get-caller-identity | jq -r .Account)
+fi
+
 xc=$(aws lakeformation list-permissions | grep 'iam:' | grep -v $ac | wc -l)
 if [[ $rs -lt 4 ]]; then
     echo "ERROR: Expected to see 4 principlas in LF permissions - got $xc"
