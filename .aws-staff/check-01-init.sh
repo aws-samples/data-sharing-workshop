@@ -15,6 +15,3 @@ if [[ -z ${TF_VAR_region+x} ]]; then
 else
     echo "PASSED: TF_VAR_region is set $TF_VAR_region"
 fi
-echo " "
-echo "run ./00-setup-env.sh if you are going to use the check scripts"
-echo " "
