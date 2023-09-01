@@ -50,15 +50,15 @@ EOF
 perms=$(aws lakeformation list-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$ra)
 echo $perms | grep DESCRIBE > /dev/null
 if [[ $? -eq 0 ]];then
-echo "PASSED: Principal $ra has DESCRIBE on tag share value teams"
+echo "PASSED: Principal $ra has DESCRIBE on tag share value central"
 else
-echo "ERROR: Principal $ra does not have DESCRIBE on tag share value teams"
+echo "ERROR: Principal $ra does not have DESCRIBE on tag share value central"
 fi
 echo $perms | grep ASSOCIATE  > /dev/null
 if [[ $? -eq 0 ]];then
-echo "PASSED: Principal $ra has ASSOCIATE on tag share value teams"
+echo "PASSED: Principal $ra has ASSOCIATE on tag share value central"
 else
-echo "ERROR: Principal $ra does not have ASSOCIATE on tag share value teams"
+echo "ERROR: Principal $ra does not have ASSOCIATE on tag share value central"
 fi
 
 cat << EOF > input.json
@@ -95,7 +95,7 @@ done
 prins=$(aws lakeformation list-permissions | grep 'iam:' | grep $TF_VAR_central_acct | sort -u | cut -f2- -d':' | jq -r .)
 
 for p in $prins; do
-
+echo "checking $p TABLE permissions"
 cat << EOF > input.json
 {
     "CatalogId": "$ac",
@@ -123,6 +123,7 @@ cat << EOF > input.json
 }
 EOF
 perms=$(aws lakeformation list-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$p)
+echo $perms
 echo $perms | grep SELECT > /dev/null
 if [[ $? -eq 0 ]];then
 echo "PASSED: Principal $p has SELECT with tags sensitivity: public,private and share: central on TABLE in xgov"
