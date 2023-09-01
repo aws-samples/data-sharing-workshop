@@ -13,7 +13,7 @@ if [[ -z ${TF_VAR_central_acct+x} ]]; then
     
 fi
 ac=$(aws sts get-caller-identity | jq -r .Account)
-cracs=$(aws lakeformation list-permissions | grep 'iam:'| grep $TF_VAR_central_acc | sort -u | cut -f6 -d: | wc -l)
+cracs=$(aws lakeformation list-permissions | grep 'iam:'| grep $TF_VAR_central_acct | sort -u | cut -f6 -d: | wc -l)
 if [[ $cracs -ne 1 ]];then
     echo "WARNING: found $cracs remote accounts in permissions - expected 1 at this point in the workshop"
 fi
