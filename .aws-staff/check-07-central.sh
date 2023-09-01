@@ -32,7 +32,7 @@ else
     echo "PASSED: Found min 5 principals expected"
 fi
 
-racs=$(aws lakeformation list-permissions | grep 'iam:'| grep -v $ac | sort -u | cut -f6 -d:)
+racs=$(aws lakeformation list-permissions | grep 'iam:'| grep $TF_VAR_central_acct | sort -u | cut -f6 -d:)
 
 for ra in $racs; do
 cat << EOF > input.json
@@ -92,6 +92,7 @@ done
 
 
 # check table perms
+prins=$(aws lakeformation list-permissions | grep 'iam:' | grep $TF_VAR_central_acct | sort -u | cut -f2- -d':' | jq -r .)
 
 for p in $prins; do
 
