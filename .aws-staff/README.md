@@ -1,6 +1,6 @@
 ## Helper scripts for AWS Staff facilitating the workshop
 
-### Validating/checking participants steps
+### Validating/checking participant steps
 
 * `check-01-init.sh` - checks the data files are in s3 and soem of the environment variables are set
 * `check-02-lf-setup.sh` - checks the participant has setup Lake Formation correctly
@@ -24,7 +24,7 @@
 
 ## Building scripts 
 
-These are intended for facilitators to quickly build tghe workshop, or to help participants who get stuck to catch up:
+These are intended for facilitators to quickly build the workshop, or to help participants who get stuck to catch up:
 
 * `01-c9setup.sh` - setup the Cloud9 IDE 
 * `02-tfinit.sh` - setup the inital resources
