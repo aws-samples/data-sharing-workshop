@@ -38,19 +38,7 @@ if [[ -z ${TF_VAR_remote_acct_2+x} ]]; then
 
 fi
 ac=$(aws sts get-caller-identity | jq -r .Account)
-cracs=$(aws lakeformation list-permissions | grep 'iam:' | grep -e $TF_VAR_remote_acct_1 -e $TF_VAR_remote_acct_2 | sort -u | cut -f6 -d: | wc -l)
-if [[ $cracs -ne 2 ]]; then
-    echo "WARNING: found $cracs remote accounts in permissions - expected only 2 at this point in the workshop"
-fi
 
-
-
-xc=$(aws lakeformation list-permissions | grep 'iam:' | grep -v $ac | wc -l)
-if [[ $rs -lt 4 ]]; then
-    echo "ERROR: Expected to see 4 principlas in LF permissions - got $xc"
-else
-    echo "PASSED: Found min 4 principals expected"
-fi
 
 echo "Revoke Tag Permissions"
 racs=$(aws lakeformation list-permissions | grep 'iam:' | grep -e $TF_VAR_remote_acct_1 -e $TF_VAR_remote_acct_2 | sort -u | cut -f6 -d:)
@@ -183,4 +171,16 @@ if [[ $rs -eq 0 ]]; then
     echo "PASSED: Found 0 RAM shares as expected"
 else
     echo "WARNING: Expected to see 0 RAM shares - got $rs"
+fi
+
+xc=$(aws lakeformation list-permissions | grep 'iam:' | grep -v $ac | wc -l)
+if [[ $rs -ne 0 ]]; then
+    echo "ERROR: Expected to see 0 principlas in LF permissions - got $xc"
+else
+    echo "PASSED: Found 0 principals as expected"
+fi
+
+cracs=$(aws lakeformation list-permissions | grep 'iam:' | grep -e $TF_VAR_remote_acct_1 -e $TF_VAR_remote_acct_2 | sort -u | cut -f6 -d: | wc -l)
+if [[ $cracs -ne 0 ]]; then
+    echo "WARNING: found $cracs remote accounts in permissions - expected 0 at this point"
 fi
