@@ -89,89 +89,9 @@ for ra in $racs; do
     }
 }
 EOF
-    aws lakeformation list-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$ra --permissions DESCRIBE ASSOCIATE
+
+    aws lakeformation revoke-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$ra --permissions DESCRIBE ASSOCIATE
 
 
 done
 
-
-exit
-
-echo "Check Database permissions"
-prins=$(aws lakeformation list-permissions | grep 'iam:' | grep -e $TF_VAR_remote_acct_1 -e $TF_VAR_remote_acct_2 | sort -u | cut -f2- -d':' | jq -r .)
-# check db perms
-for p in $prins; do
-
-    cat <<EOF >input.json
-{
-    "CatalogId": "$ac",
-    "Resource": {
-        "LFTagPolicy": {
-            "CatalogId": "$ac",
-            "ResourceType": "DATABASE",
-            "Expression": [
-                {
-                    "TagKey": "sensitivity",
-                        "TagValues": [
-                            "public"
-                        ]
-                    }
-                ]
-        }
-    }
-}
-EOF
-    perms=$(aws lakeformation list-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$p)
-    echo $perms | grep DESCRIBE >/dev/null
-    if [[ $? -eq 0 ]]; then
-        echo "PASSED: Principal $p has DESCRIBE on DATABASE xgov"
-    else
-        echo "ERROR: Principal $p does not have DESCRIBE on DATABASE xgov"
-    fi
-done
-
-# check table perms
-echo "Check Table permissions"
-for p in $prins; do
-
-    cat <<EOF >input.json
-{
-    "CatalogId": "$ac",
-    "Resource": {
-        "LFTagPolicy": {
-                    "CatalogId": "$ac",
-                    "ResourceType": "TABLE",
-                    "Expression": [
-                        {
-                            "TagKey": "sensitivity",
-                            "TagValues": [
-                                "private",
-                                "public"
-                            ]
-                        },
-                        {
-                            "TagKey": "share",
-                            "TagValues": [
-                                "teams"
-                            ]
-                        }
-                    ]
-        }
-    }
-}
-EOF
-    perms=$(aws lakeformation list-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$p)
-    echo $perms | grep SELECT >/dev/null
-    if [[ $? -eq 0 ]]; then
-        echo "PASSED: Principal $p has SELECT with tags sensitivity: public,private and share: teams TABLE in xgov"
-    else
-        echo "ERROR: Principal $p does not have SELECT with tags sensitivity: public,private and share: teams TABLE in xgov"
-    fi
-    echo $perms | grep DESCRIBE >/dev/null
-    if [[ $? -eq 0 ]]; then
-        echo "PASSED: Principal $p has DESCRIBE with tags sensitivity: public,private and share: teams TABLE in xgov"
-    else
-        echo "ERROR: Principal $p does not have DESCRIBE with tags sensitivity: public,private and share: teams TABLE in xgov"
-    fi
-
-done
