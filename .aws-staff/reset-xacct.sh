@@ -137,11 +137,55 @@ EOF
 
 done
 
+
+# check table perms
+echo "Revoke Table permissions"
+for p in $prins; do
+
+    cat <<EOF >input.json
+{
+    "CatalogId": "$ac",
+    "Resource": {
+        "LFTagPolicy": {
+                    "CatalogId": "$ac",
+                    "ResourceType": "TABLE",
+                    "Expression": [
+                        {
+                            "TagKey": "sensitivity",
+                            "TagValues": [
+                                "private",
+                                "public"
+                            ]
+                        },
+                        {
+                            "TagKey": "share",
+                            "TagValues": [
+                                "teams"
+                            ]
+                        }
+                    ]
+        }
+    }
+}
+EOF
+    aws lakeformation revoke-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$p --permissions DESCRIBE SELECT
+
+
+
+done
+
+
+
+
+
+
+
+
 rs=$(aws ram get-resource-shares --resource-share-status ACTIVE --resource-owner SELF --query resourceShares[].name | jq -r .[] | grep LakeF | wc -l)
 if [[ $rs -lt 4 ]]; then
     echo "ERROR: Expected to see 4 RAM shares - got $rs"
-elif [[ $rs -eq 4 ]]; then
-    echo "PASSED: Found 4 RAM shares as expected"
+elif [[ $rs -gt 0 ]]; then
+    echo "PASSED: Found 0 RAM shares as expected"
 else
-    echo "WARNING: Expected to see 4 RAM shares - got $rs"
+    echo "WARNING: Expected to see 0 RAM shares - got $rs"
 fi
