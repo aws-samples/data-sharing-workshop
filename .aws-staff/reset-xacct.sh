@@ -184,3 +184,4 @@ cracs=$(aws lakeformation list-permissions | grep 'iam:' | grep -e $TF_VAR_remot
 if [[ $cracs -ne 0 ]]; then
     echo "WARNING: found $cracs remote accounts in permissions - expected 0 at this point"
 fi
+cd ~/environment/xgov/.aws-staff
