@@ -174,17 +174,12 @@ EOF
 
 done
 
-
-
-
-
-
-
+echo "Just on case destroy Terraform"
+cd ~/environment/xgov/xacct
+terraform destroy -auto-approve 
 
 rs=$(aws ram get-resource-shares --resource-share-status ACTIVE --resource-owner SELF --query resourceShares[].name | jq -r .[] | grep LakeF | wc -l)
-if [[ $rs -lt 4 ]]; then
-    echo "ERROR: Expected to see 4 RAM shares - got $rs"
-elif [[ $rs -gt 0 ]]; then
+if [[ $rs -eq 0 ]]; then
     echo "PASSED: Found 0 RAM shares as expected"
 else
     echo "WARNING: Expected to see 0 RAM shares - got $rs"
