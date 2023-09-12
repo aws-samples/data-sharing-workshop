@@ -133,7 +133,7 @@ for p in $prins; do
     }
 }
 EOF
-    aws lakeformation revoke-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$p --permissions DECSRIBE 
+    aws lakeformation revoke-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$p --permissions DESCSRIBE 
 
 done
 
