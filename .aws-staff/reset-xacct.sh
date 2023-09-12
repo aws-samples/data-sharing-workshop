@@ -85,7 +85,7 @@ EOF
         "LFTag": {
             "CatalogId": "$ac",
             "TagKey": "sensitivity",
-            "TagValues": ["public"]
+            "TagValues": ["public","private"]
         }    
     }
 }
