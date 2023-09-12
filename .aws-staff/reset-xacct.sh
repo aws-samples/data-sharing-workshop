@@ -84,7 +84,7 @@ EOF
 }
 EOF
 
-    aws lakeformation revoke-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$ra --permissions DESCRIBE ASSOCIATE
+    aws lakeformation revoke-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$ra --permissions DESCRIBE ASSOCIATE 2> /dev/null
 
 
     cat <<EOF >input.json
@@ -100,7 +100,7 @@ EOF
 }
 EOF
 
-    aws lakeformation revoke-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$ra --permissions DESCRIBE ASSOCIATE
+    aws lakeformation revoke-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$ra --permissions DESCRIBE ASSOCIATE 2> /dev/null
 
 
 
@@ -168,7 +168,7 @@ for p in $prins; do
     }
 }
 EOF
-    aws lakeformation revoke-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$p --permissions DESCRIBE SELECT
+    aws lakeformation revoke-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$p --permissions DESCRIBE SELECT 2> /dev/null
 
 
 
@@ -176,7 +176,7 @@ done
 
 echo "Just on case destroy Terraform"
 cd ~/environment/xgov/xacct
-terraform destroy -auto-approve 
+terraform destroy -auto-approve 2> /dev/null
 
 rs=$(aws ram get-resource-shares --resource-share-status ACTIVE --resource-owner SELF --query resourceShares[].name | jq -r .[] | grep LakeF | wc -l)
 if [[ $rs -eq 0 ]]; then
