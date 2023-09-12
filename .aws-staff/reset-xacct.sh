@@ -162,7 +162,7 @@ EOF
 
 done
 
-echo "Just on case destroy Terraform"
+echo "Just in case destroy Terraform ...."
 cd ~/environment/xgov/xacct
 terraform destroy -auto-approve 2> /dev/null
 
