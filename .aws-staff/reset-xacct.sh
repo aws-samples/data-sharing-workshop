@@ -74,7 +74,8 @@ for ra in $racs; do
             }    
         }
     }
-    EOF
+EOF
+
     aws lakeformation revoke-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$ra --permissions DESCRIBE ASSOCIATE
 
     cat <<EOF >input.json
