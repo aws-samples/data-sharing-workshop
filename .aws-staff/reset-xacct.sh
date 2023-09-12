@@ -85,13 +85,31 @@ EOF
         "LFTag": {
             "CatalogId": "$ac",
             "TagKey": "sensitivity",
-            "TagValues": ["public","private"]
+            "TagValues": ["public"]
         }    
     }
 }
 EOF
 
     aws lakeformation revoke-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$ra --permissions DESCRIBE ASSOCIATE
+
+
+    cat <<EOF >input.json
+{
+    "CatalogId": "$ac",
+    "Resource": {
+        "LFTag": {
+            "CatalogId": "$ac",
+            "TagKey": "sensitivity",
+            "TagValues": ["private"]
+        }    
+    }
+}
+EOF
+
+    aws lakeformation revoke-permissions --cli-input-json file://input.json --principal DataLakePrincipalIdentifier=$ra --permissions DESCRIBE ASSOCIATE
+
+
 
 
 done
