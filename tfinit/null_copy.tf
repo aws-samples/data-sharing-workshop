@@ -1,4 +1,4 @@
-resource "null_resource" "sleep" {
+resource "null_resource" "copy" {
   triggers = {
     always_run = timestamp()
   }
