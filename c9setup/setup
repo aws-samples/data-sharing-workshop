@@ -69,6 +69,13 @@ fi
 df -m /
 #
 #
+if [ ! `which terraform 2> /dev/null` ]; then
+  echo "install Terraform"
+  curl --silent -LO https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip > /dev/null
+  unzip terraform_1.7.5_linux_amd64.zip > /dev/null
+  sudo mv terraform /usr/local/bin > /dev/null
+fi
+
 
 echo "Setup kubectl"
 if [ ! `which kubectl 2> /dev/null` ]; then
